@@ -1,0 +1,121 @@
+{
+  "project_name": "Illuminance",
+  "app_type": "e-commerce toko lampu — multi-page (Beranda, Katalog+Filter, Detail Produk, Checkout)",
+  "pages": ["/ (Beranda)", "/produk (Katalog + Filter)", "/produk/[slug] (Detail Produk)", "/checkout"],
+  "theme": "Dual-theme by page purpose — GELAP untuk halaman marketing/atmosfer (Beranda), TERANG untuk halaman transaksional (Katalog, Detail Produk, Checkout). Ini keputusan desain sengaja, lihat 'theme_strategy_note'.",
+  "theme_strategy_note": "Lampu paling menjual saat 'menyala' di ruangan gelap — jadi Beranda pakai latar gelap agar foto produk (cahaya lampu) jadi elemen paling terang di layar. Tapi halaman belanja & checkout butuh kepercayaan dan keterbacaan cepat (form, harga, filter) — jadi beralih ke latar terang. Brand tetap konsisten lewat warna amber (accent) dan tipografi yang sama di kedua mode.",
+
+  "brand_origin_note": "TIDAK ada logo yang dilampirkan untuk brand ini (berbeda dari RUMA PROJEKTA & Batik Gajah Mada). Identitas visual di bawah saya rancang dari MAKNA NAMA brand: 'illuminance' adalah satuan fotometri untuk cahaya yang jatuh di suatu permukaan (lux) — jadi konsep 'glow'/pendar cahaya hangat jadi elemen visual inti. Kalau nanti klien punya logo asli, token warna & tipografi di file ini WAJIB diselaraskan ulang ke logo tersebut, mengikuti pola 2 proyek sebelumnya.",
+
+  "design_archetype": "Modern Lighting Boutique — minimalis, editorial, product-photography-first (mirip brand desain lampu premium: Tala, Flos, Muuto) — bukan gaya hype/drop-culture seperti referensi SMii7Y.",
+
+  "business_data_note": "Tidak ada data bisnis nyata (alamat, nomor kontak, ulasan) yang diberikan untuk brand ini. Semua field kontak, testimoni, dan kebijakan pengiriman di bawah adalah PLACEHOLDER yang harus ditandai jelas di kode (komentar TODO) — jangan tampilkan sebagai fakta final.",
+
+  "typography": {
+    "fonts_to_install": ["next/font/google (Bricolage Grotesque)", "next/font/google (Inter)"],
+    "heading": "Bricolage Grotesque — weights semibold/bold, tracking sedikit rapat (tracking-[-0.02em]). Grotesk modern dengan karakter, cocok untuk brand desain premium tanpa terasa dingin/korporat.",
+    "body": "Inter, regular/medium, untuk deskripsi produk, spesifikasi, dan form.",
+    "scale_rules": {
+      "h1": "text-4xl md:text-6xl font-bold leading-[1.08] tracking-[-0.02em]",
+      "h2": "text-3xl md:text-5xl font-semibold tracking-[-0.02em]",
+      "h3": "text-lg md:text-xl font-semibold",
+      "price": "text-xl md:text-2xl font-bold text-il-accent (di kartu produk) / text-il-ink (di halaman checkout agar tidak riuh)",
+      "eyebrow": "text-xs font-semibold uppercase tracking-[0.2em] text-il-accent",
+      "body": "text-sm md:text-base leading-relaxed",
+      "small": "text-xs opacity-60"
+    }
+  },
+
+  "colors": {
+    "dark_bg": "#14120F",
+    "dark_surface": "#1F1C17",
+    "dark_border": "#2E2A22",
+    "ink_on_dark": "#F6F1E7",
+    "light_bg": "#FAF8F4",
+    "surface": "#FFFFFF",
+    "surface_2": "#E7E1D5",
+    "ink_on_light": "#1C1A17",
+    "accent": "#E3A34D",
+    "accent_dark": "#B87E2E",
+    "success": "#4C7A5E",
+    "danger": "#B3402C",
+    "usage_rule": "accent (amber) = warna 'cahaya lampu' brand — dipakai untuk CTA utama, harga di kartu produk, indikator aktif filter, dan efek glow dekoratif. Jangan dipakai untuk teks body panjang (kontras kurang nyaman dibaca)."
+  },
+
+  "visual_enhancers": {
+    "glow_effect": "Elemen 'il-glow': radial-gradient blur lembut warna accent (opacity rendah 0.15-0.25) diletakkan di belakang foto produk/hero — mensimulasikan pendar cahaya lampu memancar ke latar. Ini elemen visual UTAMA brand, dipakai konsisten di Hero, ProductCard (hover), dan Detail Produk.",
+    "product_lit_state": "Interaksi khas Illuminance: tiap foto produk (di ProductCard maupun galeri Detail Produk) punya 2 versi — 'mati' (default) dan 'menyala' (muncul saat hover/tap, atau lewat toggle eksplisit '☀ Lihat saat menyala' di halaman detail). Crossfade transition-opacity, bukan ganti gambar abrupt.",
+    "surfaces_dark": "Kartu di atas dark_bg: bg-il-dark-surface, border 1px il-dark-border, rounded-xl.",
+    "surfaces_light": "Kartu di atas light_bg: bg-white, border 1px il-surface-2, rounded-xl, shadow halus saat hover.",
+    "border_radius": "rounded-xl (kartu, gambar, input), rounded-full (tombol CTA, badge, avatar)."
+  },
+
+  "components": {
+    "Navbar": "Sticky. Versi dark (di atas Hero) transparan lalu jadi solid dark_surface saat scroll; versi di halaman terang selalu solid putih dengan border-b il-surface-2. Logo wordmark 'illuminance' huruf kecil semua, letter-spacing sedang. Menu: Beranda, Produk (dropdown kategori: Lampu Meja, Lampu Gantung, Lampu Lantai, Lampu Dinding), Tentang, Kontak. Ikon kanan: search, akun, keranjang (badge jumlah item, buka CartDrawer).",
+    "CartDrawer": "Drawer slide-in dari kanan. List item (thumbnail, nama, varian, qty stepper, harga, hapus). Subtotal + CTA 'Checkout' menuju /checkout. State kosong: pesan singkat + CTA 'Mulai Belanja'.",
+    "Hero": "Dark, full-bleed foto lifestyle (ruangan temaram dengan satu lampu menyala jadi sumber cahaya utama). il-glow di belakang produk. Eyebrow + h1 tentang cahaya/suasana (bukan fitur teknis) + CTA 'Jelajahi Koleksi' → /produk.",
+    "CategoryShowcase": "4 tile (Lampu Meja/Gantung/Lantai/Dinding), tiap tile foto gelap + judul + link ke /produk?kategori=...",
+    "FeaturedProducts": "Grid ProductCard (komponen sama dipakai ulang di /produk) menampilkan produk pilihan di Beranda, dengan CTA 'Lihat Semua Produk'.",
+    "BrandStory": "Section 'Tentang Illuminance' — layout editorial (foto + teks naratif tentang filosofi desain/cahaya), placeholder copy yang ditandai jelas untuk diisi user.",
+    "Testimonials": "PLACEHOLDER eksplisit (tidak ada data ulasan nyata) — beri 3 slot dengan komentar TODO, jangan isi nama/kutipan seolah nyata.",
+    "Newsletter": "Dark section, headline singkat + input email + CTA.",
+    "FooterDark": "Kolom: brand blurb, Belanja (link kategori), Bantuan (FAQ, Pengiriman, Retur — placeholder), Kontak (placeholder), ikon pembayaran, copyright.",
+
+    "ProdukPage_FilterPanel": "Di halaman /produk. Desktop: sidebar kiri sticky. Mobile: bottom-sheet dibuka lewat tombol 'Filter'. Filter: Kategori (checkbox: Meja/Gantung/Lantai/Dinding/Baca), Rentang Harga (slider dua-titik), Material/Finish (checkbox: Kuningan, Hitam Matte, Kayu, Kaca), Warna Cahaya (Warm White/Cool White/Dimmable). Tiap filter aktif tampil sebagai chip yang bisa dihapus satu-satu di atas grid.",
+    "ProdukPage_SortAndCount": "Baris di atas grid: 'Menampilkan X dari Y produk' + dropdown Urutkan (Terbaru, Harga Terendah, Harga Tertinggi, Terlaris).",
+    "ProductCard": "Foto produk aspect-[3/4] dengan lit-state hover (lihat 'product_lit_state'), badge kecil kalau relevan (Baru/Stok Terbatas — placeholder logic), nama produk, tag kategori kecil, harga bold text-il-accent. Klik kartu → /produk/[slug].",
+    "ProdukPage_Pagination": "Load-more button di bawah grid (bukan nomor halaman) — lebih ramah mobile untuk katalog produk.",
+
+    "DetailProduk_Gallery": "Kolom kiri (desktop): gambar utama besar + strip thumbnail vertikal/horizontal, termasuk toggle eksplisit '☀ Lihat saat menyala' selain hover, untuk aksesibilitas di perangkat sentuh.",
+    "DetailProduk_Info": "Kolom kanan: nama produk, harga, deskripsi singkat, pemilih varian (Finish/Warna sebagai swatch bulat, Ukuran/Tipe Bohlam sebagai pill button), stepper kuantitas, 2 CTA ('Tambah ke Keranjang' outline, 'Beli Sekarang' solid bg-il-accent langsung ke /checkout).",
+    "DetailProduk_Tabs": "Accordion/tab: Deskripsi, Spesifikasi (dimensi, material, daya watt, jenis fitting/base, sumber cahaya termasuk), Pengiriman & Pengembalian (placeholder kebijakan).",
+    "DetailProduk_Related": "Section 'Produk Serupa' di bawah, grid ProductCard dari kategori yang sama.",
+
+    "Checkout_Layout": "Minimal chrome — hanya logo (tanpa menu navigasi penuh) supaya fokus, tanpa footer marketing. Desktop: 2 kolom (form kiri lebih lebar, ringkasan pesanan kanan sticky). Mobile: ringkasan pesanan collapsible di atas form.",
+    "Checkout_Steps": "Form bertahap dalam satu halaman (bukan multi-page wizard): 1) Informasi Pengiriman (nama, no. HP, alamat lengkap, kota/kabupaten, kode pos, catatan opsional), 2) Metode Pengiriman (daftar opsi kurir + estimasi, harga masing-masing — placeholder), 3) Metode Pembayaran (kategori umum: Transfer Bank, QRIS, E-wallet, COD — tanpa logo payment gateway spesifik karena belum ada integrasi nyata).",
+    "Checkout_OrderSummary": "Card sticky: daftar item (thumbnail kecil, nama, varian, qty, harga), subtotal, ongkos kirim, diskon (jika ada kode promo — input kode promo opsional), total besar text-il-accent, tombol 'Buat Pesanan' full-width.",
+    "Checkout_TrustSignals": "Baris kecil di dekat tombol submit: ikon keamanan/SSL + teks singkat kebijakan retur — bukan klaim sertifikasi yang tidak bisa diverifikasi."
+  },
+
+  "motion": {
+    "lit_state_transition": "transition-opacity duration-300 untuk crossfade foto mati↔menyala pada ProductCard dan galeri Detail Produk — ini interaksi paling penting di seluruh situs, harus halus.",
+    "filter_transition": "Chip filter & grid produk transisi halus (transition-all duration-200) saat filter berubah — cukup CSS, tidak wajib pakai library animasi kecuali user minta.",
+    "cart_drawer": "Slide-in dari kanan dengan transisi transform + backdrop fade.",
+    "hover": "Kartu produk: translate-y kecil + shadow saat hover (bukan scale, agar tidak mengganggu crossfade lit-state)."
+  },
+
+  "layout": {
+    "container_width": "max-w-[1280px] untuk Beranda & Produk; max-w-[640px] untuk kolom form di Checkout (ringkasan pesanan di luar container itu, sticky di sisi kanan).",
+    "section_padding": "py-20 md:py-28 di halaman marketing (Beranda); py-10 md:py-14 di halaman transaksional (Produk, Detail, Checkout) — lebih padat karena orientasi tugas, bukan storytelling.",
+    "grid_produk": "2 → 3 → 4 kolom responsif di /produk. Detail Produk: 1 kolom di mobile, 2 kolom (gallery|info) di desktop."
+  },
+
+  "accessibility": {
+    "contrast_dark_mode": "Teks ink_on_dark di atas dark_bg WAJIB dicek AA — hindari accent (amber) untuk teks body panjang di atas dark_bg karena kontras pas-pasan, aman untuk headline besar & CTA saja.",
+    "lit_state_alt": "Toggle '☀ Lihat saat menyala' WAJIB ada sebagai elemen yang bisa diklik (bukan hover-only) untuk aksesibilitas keyboard & perangkat sentuh.",
+    "checkout_forms": "Semua input form checkout pakai label eksplisit (bukan placeholder-only), pesan error inline, dan fokus state yang jelas (border il-accent).",
+    "icons": "SVG dekoratif aria-hidden. Ikon fungsional (keranjang, filter, search) didampingi aria-label."
+  },
+
+  "libraries_to_install": [],
+
+  "instructions_to_main_agent": [
+    "Gunakan Next.js App Router + Tailwind v4 (@theme di globals.css). Buat 4 route sesuai 'pages': / , /produk (dengan query param untuk filter/kategori/sort), /produk/[slug], /checkout.",
+    "Definisikan token warna dengan prefix il- (il-dark-bg, il-light-bg, il-accent, il-ink-on-dark, il-ink-on-light, dst) sesuai objek 'colors'. Jangan hardcode hex.",
+    "Implementasikan interaksi lit-state (foto mati↔menyala) sebagai komponen reusable (mis. <LitStateImage />) yang dipakai di ProductCard dan galeri Detail Produk — ini elemen pembeda brand paling penting, jangan dilewatkan.",
+    "Karena tidak ada produk/gambar asli, buat data produk dummy yang JELAS ditandai (mis. 8-12 item, nama seperti 'Lampu Meja Kuningan (Contoh)') di satu file data (mis. lib/products-placeholder.ts) dengan komentar TODO agar gampang diganti user dengan data & foto asli (termasuk 2 foto per produk: mati & menyala).",
+    "Filter di /produk WAJIB fungsional di client-side terhadap data dummy (kategori, rentang harga, material, warna cahaya) dan tercermin di URL query string agar bisa di-share/refresh.",
+    "Checkout: karena belum ada integrasi payment gateway nyata, buat UI lengkap dan state management form (validasi dasar), tapi submit akhir cukup menampilkan halaman/state 'Pesanan Diterima' dummy — jangan mengklaim koneksi ke payment gateway sungguhan.",
+    "Karena tidak ada logo, buat wordmark teks sederhana 'illuminance' (huruf kecil semua, font heading) sebagai logo sementara — beri komentar TODO untuk mengganti dengan logo asli kalau sudah ada.",
+    "Semua copy Bahasa Indonesia. Testimoni & data kontak WAJIB placeholder yang jelas ditandai (lihat 'business_data_note') — jangan mengarang alamat, nomor telepon, atau ulasan pelanggan seolah nyata.",
+    "Halaman Checkout pakai layout minimal chrome (lihat 'Checkout_Layout') — jangan tempel Navbar & Footer lengkap versi marketing di halaman ini."
+  ],
+
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Jaga disiplin dua-tema: dark untuk marketing/atmosfer, light untuk transaksional — jangan campur di satu halaman yang sama.",
+    "Glow effect (il-glow) dan lit-state interaction adalah identitas visual utama — pastikan konsisten dipakai, bukan cuma di satu tempat.",
+    "Hover & transisi tetap eksplisit (transition-opacity/transform/colors), jangan 'transition: all'.",
+    "Aksesibilitas checkout jadi prioritas tinggi (form label, error state, focus state) karena ini halaman dengan risiko drop-off tertinggi.",
+    "Jangan fabrikasi data bisnis (alamat, kontak, ulasan, kebijakan retur spesifik) yang tidak ada sumbernya — tandai jelas sebagai placeholder di kode."
+  ]
+}

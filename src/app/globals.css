@@ -1,26 +1,79 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────────
+   ILLUMINANCE — Design Token Layer
+   Prefix: il-
+   Dua tema: dark (marketing/beranda) & light (transaksional)
+   Selaraskan ke logo asli ketika sudah ada.
+   ───────────────────────────────────────────── */
+
+@theme {
+  /* === WARNA === */
+  /* Dark theme (Beranda) */
+  --color-il-dark-bg:       #14120F;
+  --color-il-dark-surface:  #1F1C17;
+  --color-il-dark-border:   #2E2A22;
+  --color-il-ink-on-dark:   #F6F1E7;
+
+  /* Light theme (Katalog, Detail, Checkout) */
+  --color-il-light-bg:      #FAF8F4;
+  --color-il-surface:       #FFFFFF;
+  --color-il-surface-2:     #E7E1D5;
+  --color-il-ink-on-light:  #1C1A17;
+
+  /* Brand accent: "cahaya lampu" — amber */
+  --color-il-accent:        #E3A34D;
+  --color-il-accent-dark:   #B87E2E;
+
+  /* Semantic */
+  --color-il-success:       #4C7A5E;
+  --color-il-danger:        #B3402C;
+
+  /* === TIPOGRAFI ===
+     Bricolage Grotesque → font-heading (heading, wordmark, CTA)
+     Inter              → font-body    (body text, labels, form)
+     CSS variables dari next/font disuntik via layout.tsx className */
+  --font-heading: var(--font-bricolage), system-ui, sans-serif;
+  --font-body:    var(--font-inter), system-ui, sans-serif;
+
+  /* === BORDER RADIUS (konsisten per guidelines) === */
+  --radius-card: 0.75rem;   /* rounded-xl → kartu, input, gambar */
+  --radius-btn:  9999px;    /* rounded-full → CTA, badge, avatar */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── BASE ─── */
+html {
+  background-color: var(--color-il-dark-bg);
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
+  min-height: 100dvh;
+}
+
+/* ─── GLOW EFFECT (il-glow) ───────────────────
+   Pendar cahaya hangat di belakang produk/hero.
+   Opacity rendah (0.15–0.25) — dipakai sebagai
+   pseudo-element atau wrapper div di komponen.
+   ───────────────────────────────────────────── */
+.il-glow {
+  pointer-events: none;
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(227, 163, 77, 0.22) 0%,
+    rgba(227, 163, 77, 0.08) 45%,
+    transparent 70%
+  );
+  filter: blur(60px);
+}
+
+/* ─── SCROLLBAR (opsional, premium feel) ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-il-dark-border);
+  border-radius: 3px;
 }
