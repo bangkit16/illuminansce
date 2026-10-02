@@ -72,7 +72,7 @@
     "DetailProduk_Related": "Section 'Produk Serupa' di bawah, grid ProductCard dari kategori yang sama.",
 
     "Checkout_Layout": "Minimal chrome — hanya logo (tanpa menu navigasi penuh) supaya fokus, tanpa footer marketing. Desktop: 2 kolom (form kiri lebih lebar, ringkasan pesanan kanan sticky). Mobile: ringkasan pesanan collapsible di atas form.",
-    "Checkout_Steps": "Form bertahap dalam satu halaman (bukan multi-page wizard): 1) Informasi Pengiriman (nama, no. HP, alamat lengkap, kota/kabupaten, kode pos, catatan opsional), 2) Metode Pengiriman (daftar opsi kurir + estimasi, harga masing-masing — placeholder), 3) Metode Pembayaran (kategori umum: Transfer Bank, QRIS, E-wallet, COD — tanpa logo payment gateway spesifik karena belum ada integrasi nyata).",
+    "Checkout_Steps": "Form bertahap dalam satu halaman (bukan multi-page wizard): 1) Informasi Pengiriman (nama, no. HP, alamat lengkap, kota/kabupaten, kode pos, catatan opsional), 2) Metode Pengiriman (daftar opsi kurir + estimasi, harga masing-masing — placeholder), 3) Metode Pembayaran (kategori umum: Transfer Bank, QRIS, E-wallet — tanpa logo payment gateway spesifik karena belum ada integrasi nyata).",
     "Checkout_OrderSummary": "Card sticky: daftar item (thumbnail kecil, nama, varian, qty, harga), subtotal, ongkos kirim, diskon (jika ada kode promo — input kode promo opsional), total besar text-il-accent, tombol 'Buat Pesanan' full-width.",
     "Checkout_TrustSignals": "Baris kecil di dekat tombol submit: ikon keamanan/SSL + teks singkat kebijakan retur — bukan klaim sertifikasi yang tidak bisa diverifikasi."
   },

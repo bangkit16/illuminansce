@@ -52,7 +52,7 @@ export function ProductForm({ initialProduct, isEdit = false }: ProductFormProps
   const router = useRouter();
   const { showToast } = useToast();
 
-  const [id] = useState(initialProduct?.id || String(Date.now()));
+  const [id] = useState(initialProduct?.id || "");
   const [name, setName] = useState(initialProduct?.name || "");
   const [slug, setSlug] = useState(initialProduct?.slug || "");
   const [isSlugCustom, setIsSlugCustom] = useState(Boolean(initialProduct?.slug));
@@ -243,8 +243,10 @@ export function ProductForm({ initialProduct, isEdit = false }: ProductFormProps
         .map((s) => s.trim())
         .filter(Boolean);
 
+    const productId = id || `prod_${Date.now()}`;
+
     const productPayload: Product = {
-      id,
+      id: productId,
       slug: slug.trim(),
       name: name.trim(),
       category,
@@ -1064,7 +1066,7 @@ export function ProductForm({ initialProduct, isEdit = false }: ProductFormProps
             <div className="space-y-2 text-xs text-il-ink-on-light/70">
               <div className="flex justify-between py-1 border-b border-il-surface-2/60">
                 <span>Status ID:</span>
-                <span className="font-mono font-semibold">{id}</span>
+                <span className="font-mono font-semibold">{id || "(Baru)"}</span>
               </div>
               <div className="flex justify-between py-1 border-b border-il-surface-2/60">
                 <span>Kategori:</span>

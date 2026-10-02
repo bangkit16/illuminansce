@@ -26,7 +26,6 @@ const SHIPPING_OPTIONS = [
 const PAYMENT_METHODS = [
   { id: "midtrans", label: "Midtrans Payment Gateway (Otomatis)", icon: "⚡", desc: "Virtual Account (BCA, Mandiri, BRI, BNI), QRIS, GoPay" },
   { id: "transfer", label: "Transfer Bank Manual", icon: "🏦", desc: "Transfer ke rekening resmi Illuminance" },
-  { id: "cod", label: "COD (Bayar di Tempat)", icon: "💵", desc: "Bayar tunai saat barang diterima" },
 ] as const;
 
 type FormData = {

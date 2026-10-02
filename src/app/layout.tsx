@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/ui/Providers";
+import { IsDemo } from "@/components/ui/IsDemo";
 
 // TODO: Ganti title & description dengan informasi brand Illuminance yang sebenarnya
 export const metadata: Metadata = {
@@ -35,7 +36,10 @@ export default function RootLayout({
       className={`${bricolage.variable} ${inter.variable} h-full`}
     >
       <body className="min-h-dvh flex flex-col font-body antialiased">
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <IsDemo />
+        </Providers>
       </body>
     </html>
   );

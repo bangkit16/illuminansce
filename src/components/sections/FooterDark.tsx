@@ -122,7 +122,7 @@ export function FooterDark() {
           {/* Metode pembayaran — ikon generik, tanpa logo gateway spesifik */}
           <div className="flex items-center gap-2">
             <span className="font-body text-xs text-il-ink-on-dark/30 mr-1">Pembayaran:</span>
-            {["Transfer Bank", "QRIS", "E-wallet", "COD"].map((method) => (
+            {["Transfer Bank", "QRIS", "E-wallet"].map((method) => (
               <span
                 key={method}
                 className="text-[10px] font-body text-il-ink-on-dark/40 px-2 py-0.5 rounded border border-il-dark-border"

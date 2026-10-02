@@ -16,7 +16,7 @@ function FooterLight() {
           &copy; {new Date().getFullYear()} Illuminance. Hak cipta dilindungi.
         </p>
         <div className="flex items-center gap-4">
-          {["Transfer Bank", "QRIS", "E-wallet", "COD"].map((m) => (
+          {["Transfer Bank", "QRIS", "E-wallet"].map((m) => (
             <span
               key={m}
               className="text-[10px] font-body text-il-ink-on-light/30 px-2 py-0.5 rounded border border-il-surface-2"
