@@ -13,7 +13,7 @@ export type Toast = {
   title: string;
   description?: string;
   image?: string;
-  type?: "success" | "info" | "warning";
+  type?: "success" | "info" | "warning" | "error";
   actionLabel?: string;
   onAction?: () => void;
   duration?: number;
