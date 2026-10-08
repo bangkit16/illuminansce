@@ -30,12 +30,10 @@ export function KatalogClient() {
   // URL State
   const searchQuery = searchParams.get("q") ?? "";
   const [localSearch, setLocalSearch] = useState(searchQuery);
-  const [prevSearchQuery, setPrevSearchQuery] = useState(searchQuery);
 
-  if (prevSearchQuery !== searchQuery) {
-    setPrevSearchQuery(searchQuery);
+  useEffect(() => {
     setLocalSearch(searchQuery);
-  }
+  }, [searchQuery]);
 
   const activeCategories = searchParams.getAll("kategori");
   const activeMaterials = searchParams.getAll("material");
@@ -64,11 +62,33 @@ export function KatalogClient() {
     router.push(`/produk?${params.toString()}`, { scroll: false });
   };
 
+  // Auto-debounce pencarian saat user mengetik
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const currentParam = searchParams.get("q") ?? "";
+      if (localSearch.trim() !== currentParam) {
+        const params = new URLSearchParams(searchParams.toString());
+        if (localSearch.trim()) {
+          params.set("q", localSearch.trim());
+        } else {
+          params.delete("q");
+        }
+        setPage(1);
+        router.push(`/produk?${params.toString()}`, { scroll: false });
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localSearch]);
+
   const [productList, setProductList] = useState<Product[]>(products);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const syncProducts = () => {
       setProductList(getStoredProducts());
+      setIsLoaded(true);
     };
     syncProducts();
     window.addEventListener("illuminance:products-updated", syncProducts);
@@ -266,7 +286,21 @@ export function KatalogClient() {
           )}
 
           {/* Grid produk */}
-          {displayed.length === 0 ? (
+          {!isLoaded ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
+              {Array.from({ length: 8 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-xl border border-il-surface-2 p-3 sm:p-4 flex flex-col gap-3 animate-pulse"
+                >
+                  <div className="aspect-[3/4] bg-il-light-bg rounded-lg w-full" />
+                  <div className="h-3 bg-il-light-bg rounded w-1/3" />
+                  <div className="h-4 bg-il-light-bg rounded w-4/5" />
+                  <div className="h-4 bg-il-light-bg rounded w-1/2" />
+                </div>
+              ))}
+            </div>
+          ) : displayed.length === 0 ? (
             <div className="w-full py-20 text-center bg-white rounded-xl border border-il-surface-2 p-8 shadow-xs">
               <p className="font-body text-il-ink-on-light/50 mb-4">
                 Tidak ada produk yang sesuai dengan filter atau kata kunci &ldquo;{searchQuery}&rdquo;.

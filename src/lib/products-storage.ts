@@ -43,7 +43,7 @@ export function saveStoredProduct(
   data: Omit<Product, "priceFormatted"> & { priceFormatted?: string }
 ): Product {
   const all = getStoredProducts();
-  const formattedPrice = data.priceFormatted || formatRupiah(data.price);
+  const formattedPrice = formatRupiah(data.price);
   const fullProduct: Product = {
     ...data,
     priceFormatted: formattedPrice,

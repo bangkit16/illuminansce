@@ -400,7 +400,7 @@ export default function ProfilePage() {
       {/* Footer minimal light */}
       <footer className="bg-white border-t border-il-surface-2 py-8">
         <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-il-ink-on-light/40">
-          <p>&copy; {new Date().getFullYear()} Illuminance. Hak cipta dilindungi.</p>
+          <p suppressHydrationWarning>&copy; {new Date().getFullYear()} Illuminance. Hak cipta dilindungi.</p>
           <div className="flex gap-4">
             <Link href="/" className="hover:text-il-accent transition-colors">
               Beranda

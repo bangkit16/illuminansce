@@ -11,6 +11,8 @@ import {
   useReducer,
   useCallback,
   useMemo,
+  useState,
+  useEffect,
   type ReactNode,
 } from "react";
 import { useToast } from "@/context/ToastContext";
@@ -32,6 +34,7 @@ type CartState = {
 };
 
 type CartAction =
+  | { type: "INIT"; items: CartItem[] }
   | { type: "ADD"; item: Omit<CartItem, "qty"> }
   | { type: "REMOVE"; productId: string; variant?: string }
   | { type: "SET_QTY"; productId: string; variant?: string; qty: number }
@@ -41,6 +44,11 @@ type CartAction =
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
+    case "INIT":
+      return {
+        ...state,
+        items: action.items,
+      };
     case "ADD": {
       const key = `${action.item.productId}__${action.item.variant ?? ""}`;
       const existing = state.items.find(
@@ -127,12 +135,67 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
+const CART_STORAGE_KEY = "illuminance_cart_data";
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const { showToast } = useToast();
   const [state, dispatch] = useReducer(cartReducer, {
     items: [],
     isDrawerOpen: false,
   });
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load keranjang tersimpan saat pertama kali mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CART_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          dispatch({ type: "INIT", items: parsed });
+        }
+      }
+    } catch (err) {
+      console.error("Gagal membaca keranjang dari storage:", err);
+    } finally {
+      setIsLoaded(true);
+    }
+  }, []);
+
+  // Simpan perubahan keranjang ke storage
+  useEffect(() => {
+    if (!isLoaded) return;
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
+    } catch (err) {
+      console.error("Gagal menyimpan keranjang ke storage:", err);
+    }
+  }, [state.items, isLoaded]);
+
+  // Sinkronisasi antar-tab
+  useEffect(() => {
+    const handleSync = (e: StorageEvent) => {
+      if (e.key && e.key !== CART_STORAGE_KEY) return;
+      try {
+        const raw = localStorage.getItem(CART_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            dispatch({ type: "INIT", items: parsed });
+          }
+        } else {
+          dispatch({ type: "INIT", items: [] });
+        }
+      } catch (err) {
+        console.error("Gagal sinkronisasi keranjang:", err);
+      }
+    };
+
+    window.addEventListener("storage", handleSync);
+    return () => {
+      window.removeEventListener("storage", handleSync);
+    };
+  }, []);
 
   const addItem = useCallback(
     (item: Omit<CartItem, "qty">) => {

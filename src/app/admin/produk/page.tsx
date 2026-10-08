@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { products, Product } from "@/lib/products-placeholder";
+import { products, Product, categories, getCategoryLabel } from "@/lib/products-placeholder";
 import {
   getStoredProducts,
   deleteStoredProduct,
@@ -15,6 +15,7 @@ export default function AdminProdukPage() {
   const [productList, setProductList] = useState<Product[]>(products);
   const [productSearch, setProductSearch] = useState("");
   const [productCategoryFilter, setProductCategoryFilter] = useState("all");
+  const [productToDelete, setProductToDelete] = useState<{ id: string; name: string } | null>(null);
 
   useEffect(() => {
     const loadProducts = () => {
@@ -44,16 +45,17 @@ export default function AdminProdukPage() {
     }
   };
 
-  const handleDeleteProduct = (productId: string, productName: string) => {
-    if (confirm(`Hapus produk "${productName}" dari katalog?`)) {
-      deleteStoredProduct(productId);
-      setProductList((prev) => prev.filter((p) => p.id !== productId));
-      showToast({
-        title: "Produk Dihapus",
-        description: `${productName} telah dihapus dari etalase.`,
-        type: "info",
-      });
-    }
+  const confirmDeleteProduct = () => {
+    if (!productToDelete) return;
+    const { id, name } = productToDelete;
+    deleteStoredProduct(id);
+    setProductList((prev) => prev.filter((p) => p.id !== id));
+    setProductToDelete(null);
+    showToast({
+      title: "Produk Dihapus",
+      description: `${name} telah dihapus dari etalase.`,
+      type: "info",
+    });
   };
 
   const filteredProducts = productList.filter((p) => {
@@ -67,7 +69,7 @@ export default function AdminProdukPage() {
   });
 
   return (
-    <div className="bg-white border border-il-surface-2 rounded-2xl p-5 md:p-6 shadow-xs space-y-6">
+    <div className="bg-white border border-il-surface-2 rounded-2xl p-5 md:p-6 shadow-xs space-y-6 relative">
       {/* Header Kelola Produk */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -122,11 +124,11 @@ export default function AdminProdukPage() {
             className="px-3 py-1.5 rounded-xl bg-il-light-bg border border-il-surface-2 text-xs text-il-ink-on-light outline-none cursor-pointer focus:border-il-accent"
           >
             <option value="all">Semua Kategori</option>
-            <option value="meja">Lampu Meja</option>
-            <option value="gantung">Lampu Gantung</option>
-            <option value="lantai">Lampu Lantai</option>
-            <option value="dinding">Lampu Dinding</option>
-            <option value="baca">Lampu Baca</option>
+            {categories.map((cat) => (
+              <option key={cat.value} value={cat.value}>
+                {cat.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -156,7 +158,7 @@ export default function AdminProdukPage() {
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-[10px] uppercase font-semibold text-il-accent">
-                    {p.category}
+                    {getCategoryLabel(p.category)}
                   </span>
                   {p.isNew && (
                     <span className="text-[9px] px-1.5 py-0.2 rounded bg-il-accent/15 text-il-accent font-semibold">
@@ -193,7 +195,7 @@ export default function AdminProdukPage() {
                   Edit
                 </Link>
                 <button
-                  onClick={() => handleDeleteProduct(p.id, p.name)}
+                  onClick={() => setProductToDelete({ id: p.id, name: p.name })}
                   className="p-1 rounded-lg text-il-ink-on-light/40 hover:text-il-danger hover:bg-il-danger/10 transition-colors cursor-pointer"
                   title="Hapus Produk"
                 >
@@ -220,6 +222,45 @@ export default function AdminProdukPage() {
       {filteredProducts.length === 0 && (
         <div className="text-center py-12 text-xs text-il-ink-on-light/50">
           Tidak ada produk yang cocok dengan pencarian &quot;{productSearch}&quot;.
+        </div>
+      )}
+
+      {/* ─── MODAL KONFIRMASI HAPUS ─── */}
+      {productToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+          <div className="bg-white rounded-2xl max-w-sm w-full p-6 border border-il-surface-2 shadow-xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="w-10 h-10 rounded-full bg-il-danger/10 text-il-danger flex items-center justify-center mx-auto">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                <line x1="10" y1="11" x2="10" y2="17" />
+                <line x1="14" y1="11" x2="14" y2="17" />
+              </svg>
+            </div>
+            <div className="text-center space-y-1">
+              <h3 className="font-heading font-semibold text-base text-il-ink-on-light">
+                Hapus Produk?
+              </h3>
+              <p className="text-xs text-il-ink-on-light/60">
+                Lampu <span className="font-semibold text-il-ink-on-light">&quot;{productToDelete.name}&quot;</span> akan dihapus dari etalase toko. Tindakan ini tidak dapat dibatalkan.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 pt-2">
+              <button
+                type="button"
+                onClick={() => setProductToDelete(null)}
+                className="flex-1 py-2.5 rounded-xl border border-il-surface-2 text-xs font-medium text-il-ink-on-light hover:bg-il-light-bg transition-colors cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={confirmDeleteProduct}
+                className="flex-1 py-2.5 rounded-xl bg-il-danger text-white text-xs font-semibold hover:bg-red-700 transition-colors cursor-pointer shadow-xs"
+              >
+                Ya, Hapus
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

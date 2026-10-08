@@ -316,6 +316,11 @@ export const categories = [
   { value: "baca",   label: "Lampu Baca" },
 ] as const;
 
+export function getCategoryLabel(category: string): string {
+  const found = categories.find((c) => c.value === category);
+  return found ? found.label : category;
+}
+
 export const materials = [
   { value: "kuningan",    label: "Kuningan" },
   { value: "hitam-matte", label: "Hitam Matte" },

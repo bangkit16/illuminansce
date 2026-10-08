@@ -6,9 +6,20 @@ import { IsDemo } from "@/components/ui/IsDemo";
 
 // TODO: Ganti title & description dengan informasi brand Illuminance yang sebenarnya
 export const metadata: Metadata = {
-  title: "Illuminance — Koleksi Lampu Premium",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://illuminance.id"
+  ),
+  title: {
+    default: "Illuminance — Koleksi Lampu Premium",
+    template: "%s | Illuminance",
+  },
   description:
     "Toko lampu premium pilihan: Lampu Meja, Gantung, Lantai, Dinding. Temukan lampu yang menghidupkan suasana ruangan Anda.",
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    siteName: "Illuminance",
+  },
 };
 
 const bricolage = Bricolage_Grotesque({
@@ -34,8 +45,9 @@ export default function RootLayout({
     <html
       lang="id"
       className={`${bricolage.variable} ${inter.variable} h-full`}
+      suppressHydrationWarning
     >
-      <body className="min-h-dvh flex flex-col font-body antialiased">
+      <body className="min-h-dvh flex flex-col font-body antialiased" suppressHydrationWarning>
         <Providers>
           {children}
           <IsDemo />
