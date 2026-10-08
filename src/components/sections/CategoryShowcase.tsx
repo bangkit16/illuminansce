@@ -5,26 +5,25 @@ const categories = [
     slug: "meja",
     label: "Lampu Meja",
     description: "Aksen & fungsional",
-    // TODO: Ganti dengan foto kategori asli
-    image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80",
+    image: "/product_image/1 on.jpg",
   },
   {
     slug: "gantung",
     label: "Lampu Gantung",
     description: "Titik fokus ruangan",
-    image: "https://images.unsplash.com/photo-1565814636199-ae8133055c1c?w=800&q=80",
+    image: "/product_image/2 on.jpg",
   },
   {
     slug: "lantai",
     label: "Lampu Lantai",
     description: "Kehangatan di sudut",
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80",
+    image: "/product_image/3 on.jpg",
   },
   {
     slug: "dinding",
     label: "Lampu Dinding",
     description: "Sentuhan arsitektur",
-    image: "https://images.unsplash.com/photo-1573755069541-4b0a9e4e4b38?w=800&q=80",
+    image: "/product_image/4 on.jpg",
   },
 ];
 

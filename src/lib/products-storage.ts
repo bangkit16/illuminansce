@@ -25,6 +25,13 @@ export function getStoredProducts(): Product[] {
     }
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed) && parsed.length > 0) {
+      const hasStaleImages = parsed.some(
+        (p: Product) => p.imageOff && p.imageOff.includes("unsplash.com")
+      );
+      if (hasStaleImages) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+        return products;
+      }
       return parsed;
     }
   } catch (err) {

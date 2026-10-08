@@ -67,12 +67,10 @@ export function ProductForm({ initialProduct, isEdit = false }: ProductFormProps
   );
   const [price, setPrice] = useState<number>(initialProduct?.price || 1250000);
   const [imageOff, setImageOff] = useState(
-    initialProduct?.imageOff ||
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80"
+    initialProduct?.imageOff || "/product_image/1 off.jpg"
   );
   const [imageOn, setImageOn] = useState(
-    initialProduct?.imageOn ||
-      "https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=600&q=80"
+    initialProduct?.imageOn || "/product_image/1 on.jpg"
   );
   const [galleryImages, setGalleryImages] = useState<string[]>(
     initialProduct?.galleryImages || []
